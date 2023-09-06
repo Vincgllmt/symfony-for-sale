@@ -34,3 +34,6 @@ grumphp:
             config: '.php-cs-fixer.dist.php'
     fixer:
         enabled: false
+    ascii:
+        failed: ressources/bad.txt
+        succeeded: ressources/good.txt
