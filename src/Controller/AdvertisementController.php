@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Advertisement;
 use App\Repository\AdvertisementRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,14 @@ class AdvertisementController extends AbstractController
 
         return $this->render('advertisement/index.html.twig', [
             'advertisements' => $advertisements,
+        ]);
+    }
+
+    #[Route('/advertisement/{id}', name: 'app_advertisement_show', requirements: ['id' => '\d+'])]
+    public function show(Advertisement $advertisement): Response
+    {
+        return $this->render('advertisement/show.html.twig', [
+            'advertisement' => $advertisement,
         ]);
     }
 }
