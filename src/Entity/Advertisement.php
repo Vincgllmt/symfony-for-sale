@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AdvertisementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Timestampable;
 
 #[ORM\Entity(repositoryClass: AdvertisementRepository::class)]
 class Advertisement
@@ -23,9 +24,11 @@ class Advertisement
     #[ORM\Column]
     private ?int $price = null;
 
+    #[Timestampable(on: 'create')]
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[Timestampable(on: 'update', field: ['title', 'description', 'price', 'location'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
