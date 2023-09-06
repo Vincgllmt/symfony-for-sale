@@ -21,6 +21,14 @@ class AdvertisementRepository extends ServiceEntityRepository
         parent::__construct($registry, Advertisement::class);
     }
 
+    public function findAllByDate(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->orderBy('a.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
     //    /**
     //     * @return Advertisement[] Returns an array of Advertisement objects
     //     */
