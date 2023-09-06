@@ -59,4 +59,27 @@ class AdvertisementController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/advertisement/edit/{id}', name: 'app_advertisement_edit', requirements: ['id' => '\d+'])]
+    public function edit(Advertisement $advertisement, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(AdvertisementType::class, $advertisement);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $advertisement = $form->getData();
+
+            $entityManager->persist($advertisement);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_advertisement_show', [
+                'id' => $advertisement->getId(),
+            ]);
+        }
+
+        return $this->render('advertisement/_form.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 }
