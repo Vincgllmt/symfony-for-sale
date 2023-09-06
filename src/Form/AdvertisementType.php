@@ -4,11 +4,13 @@ namespace App\Form;
 
 use App\Entity\Advertisement;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\Length;
 
 class AdvertisementType extends AbstractType
 {
@@ -17,8 +19,12 @@ class AdvertisementType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Titre de l\'annonce',
-                'max_length' => 100,
-                'min_length' => 10,
+                'constraints' => [
+                    new Length([
+                        'min' => 10,
+                        'max' => 100,
+                    ]),
+                ],
                 'attr' => [
                     'minlength' => 10,
                     'maxlength' => 100,
@@ -26,23 +32,34 @@ class AdvertisementType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description de l\'annonce',
-                'max_length' => 1000,
-                'min_length' => 20,
+                'constraints' => [
+                    new Length([
+                        'min' => 20,
+                        'max' => 1000,
+                    ]),
+                ],
                 'attr' => [
                     'minlength' => 20,
                     'maxlength' => 1000,
                 ],
             ])
-            ->add('price', NumberType::class, [
-                'min_value' => 0,
+            ->add('price', MoneyType::class, [
+                'label' => 'Prix de l\'annonce',
+                'constraints' => [
+                  new GreaterThan(0),
+                ],
                 'attr' => [
                     'min' => 0,
                 ],
             ])
             ->add('location', TextType::class, [
                 'label' => 'Localisation',
-                'max_length' => 100,
-                'min_length' => 2,
+                'constraints' => [
+                    new Length([
+                        'min' => 2,
+                        'max' => 100,
+                    ]),
+                ],
                 'attr' => [
                     'minlength' => 2,
                     'maxlength' => 100,
