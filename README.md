@@ -12,11 +12,10 @@ cd symfony-for-sale
 composer install
 ```
 
-| Commande   | Description                                              |
-|------------|----------------------------------------------------------|
-| `start`    | Lance le serveur web de test                             |
-| `test:cs`  | Lance la vérification du code par PHP CS Fixer           |
-| `fix:cs`   | Lance la correction du code par PHP CS Fixer             |
+| Commande    | Description                                              |
+|-------------|----------------------------------------------------------|
+| `start`     | Lance le serveur web de test                             |
+| `test:cs`   | Lance la vérification du code par PHP CS Fixer           |
+| `fix:cs`    | Lance la correction du code par PHP CS Fixer             |
 | `test:yaml` | Lance la vérification des fichiers de configuration YAML |
 | `test:twig` | Lance la vérification des fichiers de templates TWIG     |
-|            |                                                          |
