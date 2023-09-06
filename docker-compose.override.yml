@@ -10,6 +10,11 @@ services:
     ports:
       - "8080:8080"
     environment:
+        ADMINER_DB: ${POSTGRES_DB:-app}
+        ADMINER_USERNAME: ${POSTGRES_USER:-app}
+        ADMINER_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+        ADMINER_DRIVER: pgsql
+        ADMINER_SERVER: database
         ADMINER_AUTOLOGIN: 1
 
 ###< doctrine/doctrine-bundle ###
