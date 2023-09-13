@@ -22,9 +22,14 @@ class AdvertisementRepository extends ServiceEntityRepository
         parent::__construct($registry, Advertisement::class);
     }
 
+    /**Optimised function with a left join for grab all the categories in one request
+     * @return array
+     */
     public function findAllByDate(): array
     {
         return $this->createQueryBuilder('a')
+            ->leftJoin('a.category', 'ca')
+            ->addSelect('ca')
             ->orderBy('a.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
