@@ -30,7 +30,6 @@ class AdvertisementRepository extends ServiceEntityRepository
     public function queryAllByDate(): Query
     {
         return $this->createQueryBuilder('a')
-            ->addSelect('a.category')
             ->leftJoin('a.category', 'ca')
             ->addSelect('ca')
             ->orderBy('a.createdAt', 'DESC')

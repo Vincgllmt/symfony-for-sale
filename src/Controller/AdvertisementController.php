@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +32,7 @@ class AdvertisementController extends AbstractController
     }
 
     #[Route('/advertisement/{id}', name: 'app_advertisement_show', requirements: ['id' => '\d+'])]
-    public function show(Advertisement $advertisement): Response
+    public function show(#[MapEntity(expr: 'repository.find(id)')] Advertisement $advertisement): Response
     {
         return $this->render('advertisement/show.html.twig', [
             'advertisement' => $advertisement,
@@ -66,7 +67,7 @@ class AdvertisementController extends AbstractController
     }
 
     #[Route('/advertisement/edit/{id}', name: 'app_advertisement_edit', requirements: ['id' => '\d+'])]
-    public function edit(Advertisement $advertisement, Request $request, EntityManagerInterface $entityManager): Response
+    public function edit(#[MapEntity(expr: 'repository.find(id)')] Advertisement $advertisement, Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(AdvertisementType::class, $advertisement);
 
