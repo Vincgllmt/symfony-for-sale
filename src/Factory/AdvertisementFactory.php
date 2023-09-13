@@ -48,6 +48,7 @@ final class AdvertisementFactory extends ModelFactory
             'location' => self::faker()->text(100),
             'price' => self::faker()->numberBetween(20, 500_000),
             'title' => self::faker()->text(100),
+            'category' => CategoryFactory::random(),
         ];
     }
 
