@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Advertisement;
+use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -28,6 +29,22 @@ class AdvertisementRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    /**
+     * Find all advertisement for a category.
+     *
+     * @param Category $category The category
+     *
+     * @return Advertisement[] All advertisement
+     */
+    public function findByCategory(Category $category): array
+    {
+        return $this->findBy([
+            'category' => $category,
+        ], [
+            'createdAt' => 'DESC',
+        ]);
     }
     //    /**
     //     * @return Advertisement[] Returns an array of Advertisement objects
