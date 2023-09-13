@@ -8,6 +8,7 @@ use App\Repository\AdvertisementRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,12 +17,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdvertisementController extends AbstractController
 {
     #[Route('/advertisement', name: 'app_advertisement')]
-    public function index(AdvertisementRepository $advertisementRepository): Response
+    public function index(AdvertisementRepository $advertisementRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        $advertisements = $advertisementRepository->findAllByDate();
+        $pagination = $paginator->paginate(
+            $advertisementRepository->queryAllByDate(),
+            $request->query->getInt('page', 1), /* page number */
+            10 /* limit per page */
+        );
 
         return $this->render('advertisement/index.html.twig', [
-            'advertisements' => $advertisements,
+            'pagination' => $pagination,
         ]);
     }
 

@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Advertisement;
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,16 +25,16 @@ class AdvertisementRepository extends ServiceEntityRepository
     }
 
     /**Optimised function with a left join for grab all the categories in one request
-     * @return array
+     * @return Query
      */
-    public function findAllByDate(): array
+    public function queryAllByDate(): Query
     {
         return $this->createQueryBuilder('a')
+            ->addSelect('a.category')
             ->leftJoin('a.category', 'ca')
             ->addSelect('ca')
             ->orderBy('a.createdAt', 'DESC')
             ->getQuery()
-            ->getResult()
         ;
     }
 
@@ -41,15 +43,16 @@ class AdvertisementRepository extends ServiceEntityRepository
      *
      * @param Category $category The category
      *
-     * @return Advertisement[] All advertisement
+     * @return QueryBuilder All advertisement
      */
-    public function findByCategory(Category $category): array
+    public function queryByCategory(Category $category): QueryBuilder
     {
-        return $this->findBy([
-            'category' => $category,
-        ], [
-            'createdAt' => 'DESC',
-        ]);
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.category', 'ca')
+            ->addSelect('ca')
+            ->where('ca.id = :id')
+            ->orderBy('a.createdAt', 'DESC')
+            ->setParameter('id', $category->getId());
     }
     //    /**
     //     * @return Advertisement[] Returns an array of Advertisement objects

@@ -1,4 +1,9 @@
-{% for advert in advertisements %}
+
+<div class="count">
+    Résultats: {{ pagination.getTotalItemCount }}
+</div>
+
+{% for advert in pagination %}
 <article>
     <div class="category-container">
         <p class="category-title"> <a href="{{ path('app_category_show', {id: advert.category.id}) }}">{{ advert.category.name }}<a></p>
@@ -13,3 +18,7 @@
     </div>
 </article>
 {% endfor %}
+
+<div class="navigation">
+    {{ knp_pagination_render(pagination) }}
+</div>
