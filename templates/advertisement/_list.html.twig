@@ -1,5 +1,8 @@
 {% for advert in advertisements %}
 <article>
+    <div class="category-container">
+        <p class="category-title"> <a href="{{ path('app_category_show', {id: advert.category.id}) }}">{{ advert.category.name }}<a></p>
+    </div>
     <h2>{{ advert.title }}</h2>
     <p>{{ advert.description }}</p>
     <p>Prix : {{ advert.price }} €</p>
