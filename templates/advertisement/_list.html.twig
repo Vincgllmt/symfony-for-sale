@@ -1,0 +1,12 @@
+{% for advert in advertisements %}
+<article>
+    <h2>{{ advert.title }}</h2>
+    <p>{{ advert.description }}</p>
+    <p>Prix : {{ advert.price }} €</p>
+    <p>{{ advert.location }}</p>
+    <div class="articles-dates">
+        <span>Ajouté le : {{ advert.createdAt|date('d/m/Y') }}</span>
+        <span>Mis à jour le : {{ advert.updatedAt|date('d/m/Y') }}</span>
+    </div>
+</article>
+{% endfor %}
