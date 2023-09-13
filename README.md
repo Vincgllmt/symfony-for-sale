@@ -10,6 +10,7 @@
 git clone https://iut-info.univ-reims.fr/gitlab/udyc0001/symfony-for-sale.git
 cd symfony-for-sale
 composer install
+npm install
 ```
 
 | Commande    | Description                                              |
@@ -24,6 +25,14 @@ composer install
 ```shell
 docker compose up
 ```
+
+## Utilisation de WebPack
+
+```shell
+npm install # Si pas encore fait
+npm run watch
+```
+
 ## Pages du projet
 
 ### Advertisement
