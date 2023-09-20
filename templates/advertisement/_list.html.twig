@@ -4,7 +4,7 @@
 </div>
 <ul class="list-group">
 {% for advert in pagination %}
-<li class="list-group-item">
+<li class="list-group-item bg-odd-secondary">
     <p class="text-wrap-anywhere">
         <a href="{{ path('app_category_show', {id: advert.category.id}) }}">
             <span class="badge bg-danger">{{ advert.category.name }}</span>

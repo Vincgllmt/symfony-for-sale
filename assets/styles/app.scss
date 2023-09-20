@@ -14,8 +14,14 @@ $theme-colors: (
         "danger":     #f72308,
 );
 
+$badge-font-size: 1rem;
+
 @import "~bootstrap/scss/bootstrap";
 
 .text-wrap-anywhere {
   word-wrap: anywhere;
+}
+
+.bg-odd-secondary:nth-child(odd) {
+  background-color: $secondary-bg-subtle !important;
 }
