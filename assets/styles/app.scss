@@ -15,7 +15,7 @@ $theme-colors: (
 );
 
 $badge-font-size: 1rem;
-
+$bi: ("width": 5px, "height": 5px);
 // Configuration
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
@@ -52,5 +52,18 @@ $badge-font-size: 1rem;
 }
 
 .bg-odd-secondary:nth-child(odd) {
+  background-color: $primary-bg-subtle !important;
+}
+
+.bg-odd-secondary:nth-child(even) {
   background-color: $secondary-bg-subtle !important;
+}
+$color-mode-type: data;
+@include color-mode(dark) {
+  .bg-odd-secondary:nth-child(odd) {
+    background-color: $primary-bg-subtle-dark !important;
+  }
+.bg-odd-secondary:nth-child(even) {
+  background-color: $secondary-bg-subtle-dark !important;
+}
 }

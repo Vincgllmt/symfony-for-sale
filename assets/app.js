@@ -1,2 +1,3 @@
 import './styles/app.scss';
-require('bootstrap');
+import './js/color-mode'
+import 'bootstrap'
