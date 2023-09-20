@@ -1,21 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <main>
-        <article>
-            <div class="category-container">
-                <p class="category-title"> <a href="{{ path('app_category_show', {id: advertisement.category.id}) }}">{{ advertisement.category.name }}</a></p>
-            </div>
-            <h2>{{ advertisement.title }}</h2>
-            <p>{{ advertisement.description }}</p>
-            <p>Prix : {{ advertisement.price }} €</p>
-            <p>{{ advertisement.location }}</p>
-                <div class="articles-dates">
-                    <span>Ajouté le : {{ advertisement.createdAt|date('d/m/Y') }}</span>
-                    <span>Mis à jour le : {{ advertisement.updatedAt|date('d/m/Y') }}</span>
-                </div>
-        </article>
-    </main>
+{% block content %}
+
+    <article>
+        <div class="category-container">
+            <p class="category-title"><a
+                        href="{{ path('app_category_show', {id: advertisement.category.id}) }}">{{ advertisement.category.name }}</a>
+            </p>
+        </div>
+        <h2>{{ advertisement.title }}</h2>
+        <p>{{ advertisement.description }}</p>
+        <p>Prix : {{ advertisement.price }} €</p>
+        <p>{{ advertisement.location }}</p>
+        <div class="articles-dates">
+            <span>Ajouté le : {{ advertisement.createdAt|date('d/m/Y') }}</span>
+            <span>Mis à jour le : {{ advertisement.updatedAt|date('d/m/Y') }}</span>
+        </div>
+    </article>
+
 {% endblock %}
 
 {% block title %}

@@ -2,59 +2,10 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}LeMauvaiscoin{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
-            <style>
-                main {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                }
-
-                article {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 15px;
-                    width: 50%;
-                    border: 1px solid black;
-                    border-radius: 5px;
-                    box-shadow: 7px 9px 18px 0px rgba(0,0,0,0.51);
-                    -webkit-box-shadow: 7px 9px 18px 0px rgba(0,0,0,0.51);
-                    -moz-box-shadow: 7px 9px 18px 0px rgba(0,0,0,0.51);
-                    margin: 1rem;
-                    padding: 1rem;
-                }
-
-                article h2 {
-                    margin: 0;
-                }
-
-                article p {
-                    margin: 0;
-                }
-
-                article .articles-dates {
-                    display: flex;
-                    justify-content: space-between;
-                    color: #555555;
-                }
-
-                .category-container {
-                    display: flex;
-                    flex-wrap: nowrap;
-                }
-
-                .category-title {
-                    border: 1px solid lightcoral;
-                    background-color: lightsalmon;
-                    box-shadow: 0px 10px 15px -3px rgba(0,0,0,0.1);
-                    font-style: italic;
-                    border-radius: 5px;
-                    padding: 5px;
-                }
-            </style>
         {% endblock %}
 
         {% block javascripts %}
@@ -62,6 +13,32 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block body %}
+        {% endblock %}
+        <header>
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/advertisement">LeMauvaisCoin 🦆</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/advertisement">Home</a>
+                            </li>
+                        </ul>
+                        <form class="d-flex" role="search">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+        {% block content %}
+        {% endblock %}
+        </div>
     </body>
 </html>
