@@ -46,6 +46,7 @@ $badge-font-size: 1rem;
 // Utilities
 @import "~bootstrap/scss/utilities/api";
 
+@import "~bootstrap-icons";
 .text-wrap-anywhere {
   word-wrap: anywhere;
 }
