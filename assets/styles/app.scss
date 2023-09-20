@@ -1,3 +1,21 @@
-body {
-    background-color: lightgray;
+$white: #ffffff;
+
+$theme-colors: (
+        "light":      #f3f3f3,
+        "dark":       #050000,
+        "primary":    #3725de,
+        "secondary":  #9e34e3,
+        "info":       #a17cf8,
+        "accent1":    #e24448,
+        "accent2":    #c9a7b7,
+        "accent3":    #ded5d9,
+        "success":    #16b66d,
+        "warning":    #e6d013,
+        "danger":     #f72308,
+);
+
+@import "~bootstrap/scss/bootstrap";
+
+.text-wrap-anywhere {
+  word-wrap: anywhere;
 }

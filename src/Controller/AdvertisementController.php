@@ -61,7 +61,7 @@ class AdvertisementController extends AbstractController
             ]);
         }
 
-        return $this->render('advertisement/_form.html.twig', [
+        return $this->render('advertisement/new.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -84,7 +84,7 @@ class AdvertisementController extends AbstractController
             ]);
         }
 
-        return $this->render('advertisement/_form.html.twig', [
+        return $this->render('advertisement/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }

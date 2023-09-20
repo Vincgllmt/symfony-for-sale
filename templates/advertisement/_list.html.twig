@@ -2,23 +2,25 @@
 <div class="count">
     Résultats: {{ pagination.getTotalItemCount }}
 </div>
-
+<ul class="list-group">
 {% for advert in pagination %}
-<article>
-    <div class="category-container">
-        <p class="category-title"> <a href="{{ path('app_category_show', {id: advert.category.id}) }}">{{ advert.category.name }}<a></p>
-    </div>
+<li class="list-group-item">
+    <p class="text-wrap-anywhere">
+        <a href="{{ path('app_category_show', {id: advert.category.id}) }}">
+            <span class="badge bg-danger">{{ advert.category.name }}</span>
+        </a>
+    </p>
     <h2>{{ advert.title }}</h2>
-    <p>{{ advert.description }}</p>
+    <p class="text-wrap-anywhere">{{ advert.description }}</p>
     <p>Prix : {{ advert.price }} €</p>
     <p>{{ advert.location }}</p>
-    <div class="articles-dates">
+    <div class="d-flex w-100 justify-content-between text-secondary">
         <span>Ajouté le : {{ advert.createdAt|date('d/m/Y') }}</span>
         <span>Mis à jour le : {{ advert.updatedAt|date('d/m/Y') }}</span>
     </div>
-</article>
+</li>
 {% endfor %}
-
+</ul>
 <div class="navigation">
     {{ knp_pagination_render(pagination) }}
 </div>
