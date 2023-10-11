@@ -28,6 +28,7 @@ docker-compose up
 | `start`            | Lance le serveur web de test                                                      |
 | `test:cs`          | Lance la vérification du code par PHP CS Fixer                                    |
 | `fix:cs`           | Lance la correction du code par PHP CS Fixer                                      |
+| `db:test`          | Créer la base de données de test                                                  |
 | `test:yaml`        | Lance la vérification des fichiers de configuration YAML                          |
 | `test:twig`        | Lance la vérification des fichiers de templates TWIG                              |
 | `test:codeception` | Lance les tests codeceptions                                                      |
