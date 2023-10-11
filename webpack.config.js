@@ -43,7 +43,7 @@ Encore
     .enableVersioning(Encore.isProduction())
 
     .copyFiles({
-        from: './assets/images',
+        from: 'node_modules/bootstrap-icons/',
         to:'images/[path][name].[ext]'
     })
 
