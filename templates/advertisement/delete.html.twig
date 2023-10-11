@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+    <h1>Suppression de l'annonce '{{ advertisement.title }}'</h1>
+    {{ form(delete_form) }}
+
+{% endblock %}

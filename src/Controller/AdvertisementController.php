@@ -11,6 +11,8 @@ use Doctrine\ORM\OptimisticLockException;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -86,6 +88,42 @@ class AdvertisementController extends AbstractController
 
         return $this->render('advertisement/edit.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/advertisement/delete/{id}', name: 'app_advertisement_delete', requirements: ['id' => '\d+'])]
+    public function delete(Advertisement $advertisement, EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $deleteForm = $this->createFormBuilder($advertisement)
+            ->add('delete', SubmitType::class, ['label' => 'Supprimer'])
+            ->add('cancel', SubmitType::class, ['label' => 'Annuler'])
+            ->getForm();
+        $deleteForm->handleRequest($request);
+
+        if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
+            /* @var SubmitButton $deleteBtn */
+            /* @var SubmitButton $cancelBtn */
+
+            $deleteBtn = $deleteForm->get('delete');
+            $cancelBtn = $deleteForm->get('cancel');
+
+            if ($deleteBtn->isClicked()) {
+                $entityManager->remove($advertisement);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_advertisement');
+            }
+
+            if ($cancelBtn->isClicked()) {
+                return $this->redirectToRoute('app_advertisement_show', [
+                    'id' => $advertisement->getId(),
+                ]);
+            }
+        }
+
+        return $this->render('advertisement/delete.html.twig', [
+            'advertisement' => $advertisement,
+            'delete_form' => $deleteForm->createView(),
         ]);
     }
 }
