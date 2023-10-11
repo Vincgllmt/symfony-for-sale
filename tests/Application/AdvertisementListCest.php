@@ -19,7 +19,7 @@ class AdvertisementListCest
         CategoryFactory::createOne();
         AdvertisementFactory::createMany(15);
         $I->amOnPage('/advertisement');
-        $I->seeElement('.current');
+        $I->see('1', '.current');
         $I->seeElement('.page');
         $I->seeElement('.last');
         $I->seeNumberOfElements('main .list-group .list-group-item', 10/* only 10, pagination ftw */);
