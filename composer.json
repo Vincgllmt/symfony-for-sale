@@ -82,10 +82,10 @@
         "fix:cs": [
             "php-cs-fixer fix"
         ],
-        "test:cs" : [
+        "test:cs": [
             "php-cs-fixer fix --dry-run"
         ],
-        "test:twig" : [
+        "test:twig": [
             "php bin/console lint:twig templates"
         ],
         "test:yaml": [
@@ -100,15 +100,10 @@
         "migrate": [
             "php bin/console make:migration"
         ],
-        "test:codeception" : [
-            "APP_ENV=test bin/console cache:clear",
-            "APP_ENV=test php bin/console doctrine:database:drop --force",
-            "APP_ENV=test php bin/console doctrine:database:create",
-            "APP_ENV=test php bin/console doctrine:schema:create --quiet",
-            "SYMFONY_DEPRECATIONS_HELPER=weak php vendor/bin/codecept run --no-artifacts"
-        ],
         "test": [
             "@test:cs",
+            "@test:twig",
+            "@test:yaml",
             "@test:codeception"
         ],
         "auto-scripts": {
@@ -120,6 +115,10 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "test:codeception": [
+            "php vendor/bin/codecept clean",
+            "php vendor/bin/codecept run"
         ]
     },
     "scripts-descriptions": {
@@ -143,6 +142,10 @@
         }
     },
     "require-dev": {
+        "codeception/codeception": "^5.0",
+        "codeception/module-asserts": "^3.0",
+        "codeception/module-doctrine2": "^3.0",
+        "codeception/module-symfony": "^3.1",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "friendsofphp/php-cs-fixer": "^3.25",
         "phpro/grumphp": "^2.0",
@@ -154,6 +157,7 @@
         "symfony/phpunit-bridge": "^6.3",
         "symfony/stopwatch": "6.3.*",
         "symfony/web-profiler-bundle": "6.3.*",
-        "zenstruck/foundry": "^1.35"
+        "zenstruck/foundry": "^1.35",
+        "codeception/module-phpbrowser": "*"
     }
 }

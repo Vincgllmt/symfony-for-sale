@@ -13,13 +13,25 @@ composer install
 npm install
 ```
 
-| Commande    | Description                                              |
-|-------------|----------------------------------------------------------|
-| `start`     | Lance le serveur web de test                             |
-| `test:cs`   | Lance la vérification du code par PHP CS Fixer           |
-| `fix:cs`    | Lance la correction du code par PHP CS Fixer             |
-| `test:yaml` | Lance la vérification des fichiers de configuration YAML |
-| `test:twig` | Lance la vérification des fichiers de templates TWIG     |
+## Lancement de l'application
+
+```shell
+composer start
+npm watch
+docker-compose up
+```
+
+## Commandes du `composer.json`
+
+| Commande           | Description                                                                       |
+|--------------------|-----------------------------------------------------------------------------------|
+| `start`            | Lance le serveur web de test                                                      |
+| `test:cs`          | Lance la vérification du code par PHP CS Fixer                                    |
+| `fix:cs`           | Lance la correction du code par PHP CS Fixer                                      |
+| `test:yaml`        | Lance la vérification des fichiers de configuration YAML                          |
+| `test:twig`        | Lance la vérification des fichiers de templates TWIG                              |
+| `test:codeception` | Lance les tests codeceptions                                                      |
+| `test`             | Lance tous les tests (codeception, fichiers de configurations, php cs fixer, ...) |
 
 - Lancement de la base de données (avec docker)
 ```shell
