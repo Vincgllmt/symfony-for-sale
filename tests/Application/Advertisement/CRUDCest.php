@@ -35,4 +35,21 @@ class CRUDCest
         $I->see('quatreger', '.category-title a');
         $I->see('Prix : 100 €', 'p');
     }
+
+    public function update(ApplicationTester $I)
+    {
+        CategoryFactory::createOne(['name' => 'quatreger']);
+        $adv = AdvertisementFactory::createOne(['title' => 'test', 'description' => 'test', 'price' => 100, 'location' => 'test']);
+
+        $I->amOnPage("/advertisement/edit/{$adv->getId()}");
+        $I->seeResponseCodeIsSuccessful();
+        $I->fillField('advertisement[title]', 'Fly you fools !');
+        $I->fillField('advertisement[description]', 'I have brought peace, freedom, justice, and security to my new empire.');
+
+        $I->click('Save');
+
+        $I->amOnPage("/advertisement/{$adv->getId()}");
+        $I->seeResponseCodeIsSuccessful();
+        $I->see('I have brought peace, freedom, justice, and security to my new empire.', 'p');
+    }
 }
