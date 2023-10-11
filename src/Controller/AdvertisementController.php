@@ -32,7 +32,7 @@ class AdvertisementController extends AbstractController
     }
 
     #[Route('/advertisement/{id}', name: 'app_advertisement_show', requirements: ['id' => '\d+'])]
-    public function show(#[MapEntity(expr: 'repository.find(id)')] Advertisement $advertisement): Response
+    public function show(#[MapEntity(expr: 'repository.findOneWithCategory(id)')] Advertisement $advertisement): Response
     {
         return $this->render('advertisement/show.html.twig', [
             'advertisement' => $advertisement,

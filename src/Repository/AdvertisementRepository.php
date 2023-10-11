@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Advertisement;
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -52,6 +54,21 @@ class AdvertisementRepository extends ServiceEntityRepository
             ->where('ca.id = :id')
             ->orderBy('a.createdAt', 'DESC')
             ->setParameter('id', $category->getId());
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function findOneWithCategory(int $id)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.id = :id')
+            ->leftJoin('a.category', 'c')
+            ->addSelect('c')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getSingleResult();
     }
     //    /**
     //     * @return Advertisement[] Returns an array of Advertisement objects
