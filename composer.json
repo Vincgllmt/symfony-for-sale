@@ -124,7 +124,8 @@
         "test:codeception": [
             "@db:test",
             "php vendor/bin/codecept clean",
-            "php vendor/bin/codecept run"
+            "php vendor/bin/codecept run -g available",
+            "php vendor/bin/codecept run -x available"
         ]
     },
     "scripts-descriptions": {

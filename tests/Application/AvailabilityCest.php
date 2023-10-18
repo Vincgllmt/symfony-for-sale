@@ -6,6 +6,7 @@ use App\Factory\AdvertisementFactory;
 use App\Factory\CategoryFactory;
 use App\Tests\Support\ApplicationTester;
 use Codeception\Attribute\DataProvider;
+use Codeception\Attribute\Group;
 use Codeception\Example;
 
 class AvailabilityCest
@@ -16,6 +17,7 @@ class AvailabilityCest
         AdvertisementFactory::createOne(['category' => $catg]);
     }
 
+    #[Group('available')]
     #[DataProvider('pageIsAvailableProvider')]
     public function pageIsAvailable(ApplicationTester $I, Example $example)
     {
