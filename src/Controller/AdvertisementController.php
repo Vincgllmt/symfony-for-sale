@@ -23,7 +23,7 @@ class AdvertisementController extends AbstractController
     public function index(AdvertisementRepository $advertisementRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $pagination = $paginator->paginate(
-            $advertisementRepository->queryAllByDate(),
+            $advertisementRepository->queryAllByDate($request->query->get('search')),
             $request->query->getInt('page', 1), /* page number */
             10 /* limit per page */
         );

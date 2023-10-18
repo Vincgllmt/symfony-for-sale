@@ -29,14 +29,19 @@ class AdvertisementRepository extends ServiceEntityRepository
     /**Optimised function with a left join for grab all the categories in one request
      * @return Query
      */
-    public function queryAllByDate(): Query
+    public function queryAllByDate(string $search = null): Query
     {
-        return $this->createQueryBuilder('a')
+        $qb = $this->createQueryBuilder('a')
             ->leftJoin('a.category', 'ca')
             ->addSelect('ca')
-            ->orderBy('a.createdAt', 'DESC')
-            ->getQuery()
-        ;
+            ->orderBy('a.createdAt', 'DESC');
+        if ($search) {
+            $qb->where('lower(a.title) LIKE lower(:search)')
+                ->orWhere('lower(a.description) LIKE lower(:search)')
+                ->setParameter('search', '%'.$search.'%');
+        }
+
+        return $qb->getQuery();
     }
 
     /**

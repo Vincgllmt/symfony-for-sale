@@ -2,7 +2,13 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}LeMauvaiscoin{% endblock %}</title>
+        {% block title %}
+        {% if app.request.get('search') %}
+        <title>LeMauvaiscoin - {{ app.request.get('search') }}</title>
+        {% else %}
+        <title>LeMauvaiscoin</title>
+        {% endif %}
+        {% endblock %}
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -53,6 +59,17 @@
                                         </button>
                                     </li>
                                 </ul>
+                            </li>
+                            <li>
+                                <div>
+                                    <form class="d-flex">
+                                        <input name="search" type="search" id="form1" class="form-control" placeholder="Search" value="{{ app.request.get('search') }}">
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </form>
+
+                                </div>
                             </li>
                         </ul>
                     </div>
