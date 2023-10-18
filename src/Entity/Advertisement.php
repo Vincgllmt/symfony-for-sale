@@ -39,10 +39,9 @@ class Advertisement
     #[ORM\ManyToOne(inversedBy: 'advertisements')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
-
-    #[Blameable(on: 'create')]
     #[ORM\ManyToOne(inversedBy: 'advertisements')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Blameable(on: 'create')]
     private ?User $owner = null;
 
     public function getId(): ?int
