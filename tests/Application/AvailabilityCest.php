@@ -35,6 +35,8 @@ class AvailabilityCest
             ['/advertisement/delete/1'],
             ['/category'],
             ['/category/1'],
+            ['/login'],
+            ['/logout'],
         ];
     }
 }
