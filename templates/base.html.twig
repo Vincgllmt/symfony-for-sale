@@ -73,12 +73,19 @@
                                 </div>
                             </li>
                             <li style="margin-left: 5px">
+                                {% if not is_granted("IS_AUTHENTICATED_FULLY") %}
                                 <a class="btn btn-primary" href="{{ path('app_login') }}">
                                     Se connecter
                                 </a>
+
+                                {% else %}
                                 <a class="btn btn-danger" href="{{ path('app_logout') }}">
                                     Se déconnecter
                                 </a>
+                                <a class="btn btn-secondary" href="{{ path('app_advertisement_new') }}">
+                                    Créer une annonce
+                                </a>
+                                {% endif %}
                             </li>
                         </ul>
                     </div>

@@ -48,6 +48,9 @@ class AdvertisementController extends AbstractController
     #[Route('/advertisement/new', name: 'app_advertisement_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('app_login');
+        }
         $form = $this->createForm(AdvertisementType::class);
 
         $form->handleRequest($request);

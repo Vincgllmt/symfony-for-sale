@@ -4,12 +4,15 @@ namespace App\Tests\Application\Advertisement;
 
 use App\Factory\AdvertisementFactory;
 use App\Factory\CategoryFactory;
+use App\Factory\UserFactory;
 use App\Tests\Support\ApplicationTester;
 
 class CRUDCest
 {
     public function create(ApplicationTester $I)
     {
+        $user = UserFactory::createOne(['email' => 'yoda', 'password' => 'luke']);
+        $I->amLoggedInAs($user->object());
         CategoryFactory::createOne();
         $I->amOnPage('/advertisement/new');
         $I->seeResponseCodeIsSuccessful();
@@ -65,5 +68,11 @@ class CRUDCest
         $I->seeResponseCodeIsSuccessful();
 
         $adv->assertNotPersisted();
+    }
+    public function createFailedIfNotLogged(ApplicationTester $I)
+    {
+        CategoryFactory::createOne();
+        $I->amOnPage('/advertisement/new');
+        $I->canSeePageRedirectsTo('advertisement/new', '/login');
     }
 }
