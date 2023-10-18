@@ -52,4 +52,18 @@ class CRUDCest
         $I->seeResponseCodeIsSuccessful();
         $I->see('I have brought peace, freedom, justice, and security to my new empire.', 'p');
     }
+
+    public function delete(ApplicationTester $I)
+    {
+        CategoryFactory::createOne(['name' => 'quatreger']);
+        $adv = AdvertisementFactory::createOne(['title' => 'feur', 'description' => 'test', 'price' => 100, 'location' => 'test']);
+
+        $I->amOnPage("/advertisement/delete/{$adv->getId()}");
+        $I->seeResponseCodeIsSuccessful();
+
+        $I->click('Supprimer');
+        $I->seeResponseCodeIsSuccessful();
+
+        $adv->assertNotPersisted();
+    }
 }
