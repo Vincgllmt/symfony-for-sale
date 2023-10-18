@@ -78,3 +78,13 @@ Amène sur l'index de category, on trouve toutes les catégories du projet.
 [localhost:8000/category/show/{id}]()
 
 Amène sur les annonces d'une catégorie en particulier, spécifié par l'id de la catégorie.
+
+### User
+
+| Email                     | Password | Roles                   |
+|---------------------------|----------|-------------------------|
+| `admin@exemple.com`       | `admin`  | `ROLE_ADMIN, ROLE_USER` |
+| `admin2@exemple.com`      | `admin2` | `ROLE_ADMIN, ROLE_USER` |
+| `user@exemple.com`        | `user`   | `ROLE_USER`             |
+| `user2@exemple.com`       | `user2`  | `ROLE_USER`             |
+| Et 10 autres utilisateurs |          |                         |
