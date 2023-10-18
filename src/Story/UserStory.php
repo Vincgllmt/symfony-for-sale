@@ -36,6 +36,6 @@ final class UserStory extends Story
             'lastname' => 'user2',
         ]));
 
-        UserFactory::createMany(10);
+        $this->addToPool('users', UserFactory::createMany(10));
     }
 }

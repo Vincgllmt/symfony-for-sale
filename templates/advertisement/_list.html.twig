@@ -13,7 +13,10 @@
     <h2>{{ advert.title }}</h2>
     <p class="text-wrap-anywhere">{{ advert.description }}</p>
     <p>Prix : {{ advert.price }} €</p>
-    <p>{{ advert.location }}</p>
+    <div class="d-flex w-100 justify-content-between">
+        <p>{{ advert.location }}</p>
+        <p><span class="badge bg-accent1">{{ advert.owner.lastname }} {{ advert.owner.firstname }}</span></p>
+    </div>
     <div class="d-flex w-100 justify-content-between text-secondary">
         <span>Ajouté le : {{ advert.createdAt|date('d/m/Y') }}</span>
         <span>Mis à jour le : {{ advert.updatedAt|date('d/m/Y') }}</span>

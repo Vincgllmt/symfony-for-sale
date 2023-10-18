@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AdvertisementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Blameable;
 use Gedmo\Mapping\Annotation\Timestampable;
 
 #[ORM\Entity(repositoryClass: AdvertisementRepository::class)]
@@ -38,6 +39,11 @@ class Advertisement
     #[ORM\ManyToOne(inversedBy: 'advertisements')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
+
+    #[Blameable(on: 'create')]
+    #[ORM\ManyToOne(inversedBy: 'advertisements')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $owner = null;
 
     public function getId(): ?int
     {
@@ -124,6 +130,18 @@ class Advertisement
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): static
+    {
+        $this->owner = $owner;
 
         return $this;
     }

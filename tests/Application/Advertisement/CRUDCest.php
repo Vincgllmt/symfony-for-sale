@@ -69,6 +69,7 @@ class CRUDCest
 
         $adv->assertNotPersisted();
     }
+
     public function createFailedIfNotLogged(ApplicationTester $I)
     {
         CategoryFactory::createOne();
