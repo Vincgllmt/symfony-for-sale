@@ -48,7 +48,6 @@ class CRUDCest
 
     public function update(ApplicationTester $I)
     {
-
         CategoryFactory::createOne(['name' => 'quatreger']);
         $adv = AdvertisementFactory::createOne(['title' => 'test', 'description' => 'test', 'price' => 100, 'location' => 'test', 'owner' => $this->user]);
 
@@ -67,7 +66,6 @@ class CRUDCest
 
     public function cantUpdateNotOwned(ApplicationTester $I)
     {
-
         CategoryFactory::createOne(['name' => 'quatreger']);
         $user2 = UserFactory::createOne(['email' => 'atrain@the7.com', 'password' => 'luke']);
         $adv = AdvertisementFactory::createOne(['title' => 'test', 'description' => 'test', 'price' => 100, 'location' => 'test', 'owner' => $user2]);
