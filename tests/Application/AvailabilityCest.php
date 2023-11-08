@@ -4,6 +4,7 @@ namespace App\Tests\Application;
 
 use App\Factory\AdvertisementFactory;
 use App\Factory\CategoryFactory;
+use App\Factory\UserFactory;
 use App\Tests\Support\ApplicationTester;
 use Codeception\Attribute\DataProvider;
 use Codeception\Attribute\Group;
@@ -14,7 +15,8 @@ class AvailabilityCest
     public function _before(ApplicationTester $I)
     {
         $catg = CategoryFactory::createOne();
-        AdvertisementFactory::createOne(['category' => $catg]);
+        $user = UserFactory::createOne(['email' => 'yoda@exemple.com', 'password' => 'luke']);
+        AdvertisementFactory::createOne(['category' => $catg, 'owner' => $user]);
     }
 
     #[Group('available')]

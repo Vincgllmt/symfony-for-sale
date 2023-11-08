@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
+        <title>
         {% block title %}
             {% if app.request.get('search') %}
-                <title>LeMauvaiscoin - {{ app.request.get('search') }}</title>
+                LeMauvaiscoin - {{ app.request.get('search') }}
             {% else %}
-                <title>LeMauvaiscoin</title>
+                LeMauvaiscoin
             {% endif %}
         {% endblock %}
+        </title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -85,6 +87,9 @@
                                 <a class="btn btn-secondary" href="{{ path('app_advertisement_new') }}">
                                     Créer une annonce
                                 </a>
+                                    <a class="btn btn-primary" href="{{ path('app_advertisement_user', {id: app.user.id}) }}">
+                                        Mes annonces
+                                    </a>
                                 {% endif %}
                             </li>
                         </ul>

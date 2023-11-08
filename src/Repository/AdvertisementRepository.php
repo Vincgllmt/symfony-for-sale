@@ -75,6 +75,14 @@ class AdvertisementRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleResult();
     }
+
+    public function queryByUser($userId)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.owner = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery();
+    }
     //    /**
     //     * @return Advertisement[] Returns an array of Advertisement objects
     //     */

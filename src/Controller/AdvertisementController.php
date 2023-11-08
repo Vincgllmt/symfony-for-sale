@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Advertisement;
+use App\Entity\User;
 use App\Form\AdvertisementType;
 use App\Repository\AdvertisementRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -127,6 +129,28 @@ class AdvertisementController extends AbstractController
         return $this->render('advertisement/delete.html.twig', [
             'advertisement' => $advertisement,
             'delete_form' => $deleteForm->createView(),
+        ]);
+    }
+
+    #[Route('/advertisement/user/{id}', name: 'app_advertisement_user', requirements: ['id' => '\d+'])]
+    public function advertisementOfUser(AdvertisementRepository $advertisementRepository, UserRepository $userRepository, PaginatorInterface $paginator, Request $request, User $id): Response
+    {
+        $isOwner = false;
+        $user = null;
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $userRepository->find($id);
+            $isOwner = $this->getUser()->id == $user->getId();
+        }
+        $pagination = $paginator->paginate(
+            $advertisementRepository->queryByUser($user->getId()),
+            $request->query->getInt('page', 1), /* page number */
+            10 /* limit per page */
+        );
+
+        return $this->render('advertisement/advertisement_user.html.twig', [
+            'pagination' => $pagination,
+            'isOwner' => $isOwner,
+            'user' => $user,
         ]);
     }
 }
