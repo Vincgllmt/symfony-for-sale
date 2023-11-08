@@ -33,6 +33,7 @@ class AvailabilityCest
             ['/advertisement'],
             ['/advertisement/new'],
             ['/advertisement/1'],
+            ['/advertisement/user/1'],
             ['/advertisement/edit/1'],
             ['/advertisement/delete/1'],
             ['/category'],
