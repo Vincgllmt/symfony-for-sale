@@ -4,14 +4,22 @@ namespace App\Tests\Application;
 
 use App\Factory\AdvertisementFactory;
 use App\Factory\CategoryFactory;
+use App\Factory\UserFactory;
 use App\Tests\Support\ApplicationTester;
 
 class SearchCest
 {
+    private $user;
+
+    public function _before()
+    {
+        $this->user = UserFactory::createOne(['email' => 'yoda@exemple.com', 'password' => 'luke']);
+    }
+
     public function noSearch(ApplicationTester $I)
     {
         CategoryFactory::createOne();
-        AdvertisementFactory::createOne();
+        AdvertisementFactory::createOne(['owner' => $this->user]);
 
         $I->amOnPage('/advertisement');
         $I->seeResponseCodeIsSuccessful();
@@ -23,7 +31,7 @@ class SearchCest
     public function searchNoResults(ApplicationTester $I)
     {
         CategoryFactory::createOne();
-        AdvertisementFactory::createOne();
+        AdvertisementFactory::createOne(['owner' => $this->user]);
 
         $I->amOnPage('/advertisement?search=velo');
         $I->seeResponseCodeIsSuccessful();
@@ -36,8 +44,8 @@ class SearchCest
     public function search(ApplicationTester $I)
     {
         CategoryFactory::createOne();
-        AdvertisementFactory::createOne(['title' => 'Apagnan quoicoube quoicoube']);
-        AdvertisementFactory::createOne(['title' => 'quoicoube quoicoube feur quoi feur']);
+        AdvertisementFactory::createOne(['title' => 'Apagnan quoicoube quoicoube', 'owner' => $this->user]);
+        AdvertisementFactory::createOne(['title' => 'quoicoube quoicoube feur quoi feur', 'owner' => $this->user]);
 
         $I->amOnPage('/advertisement?search=Apagnan');
         $I->seeResponseCodeIsSuccessful();

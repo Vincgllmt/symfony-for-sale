@@ -9,10 +9,16 @@ use App\Tests\Support\ApplicationTester;
 
 class CRUDCest
 {
+    private $user;
+
+    public function _before(): void
+    {
+        $this->user = UserFactory::createOne(['email' => 'yoda@exemple.com', 'password' => 'luke']);
+    }
+
     public function create(ApplicationTester $I)
     {
-        $user = UserFactory::createOne(['email' => 'yoda', 'password' => 'luke']);
-        $I->amLoggedInAs($user->object());
+        $I->amLoggedInAs($this->user->object());
         CategoryFactory::createOne();
         $I->amOnPage('/advertisement/new');
         $I->seeResponseCodeIsSuccessful();
@@ -29,7 +35,7 @@ class CRUDCest
     public function read(ApplicationTester $I)
     {
         CategoryFactory::createOne(['name' => 'quatreger']);
-        $adv = AdvertisementFactory::createOne(['title' => 'test', 'description' => 'test', 'price' => 100, 'location' => 'test']);
+        $adv = AdvertisementFactory::createOne(['title' => 'test', 'description' => 'test', 'price' => 100, 'location' => 'test', 'owner' => $this->user]);
 
         $I->amOnPage("/advertisement/{$adv->getId()}");
         $I->seeResponseCodeIsSuccessful();
@@ -42,7 +48,7 @@ class CRUDCest
     public function update(ApplicationTester $I)
     {
         CategoryFactory::createOne(['name' => 'quatreger']);
-        $adv = AdvertisementFactory::createOne(['title' => 'test', 'description' => 'test', 'price' => 100, 'location' => 'test']);
+        $adv = AdvertisementFactory::createOne(['title' => 'test', 'description' => 'test', 'price' => 100, 'location' => 'test', 'owner' => $this->user]);
 
         $I->amOnPage("/advertisement/edit/{$adv->getId()}");
         $I->seeResponseCodeIsSuccessful();
@@ -59,7 +65,7 @@ class CRUDCest
     public function delete(ApplicationTester $I)
     {
         CategoryFactory::createOne(['name' => 'quatreger']);
-        $adv = AdvertisementFactory::createOne(['title' => 'feur', 'description' => 'test', 'price' => 100, 'location' => 'test']);
+        $adv = AdvertisementFactory::createOne(['title' => 'feur', 'description' => 'test', 'price' => 100, 'location' => 'test', 'owner' => $this->user]);
 
         $I->amOnPage("/advertisement/delete/{$adv->getId()}");
         $I->seeResponseCodeIsSuccessful();

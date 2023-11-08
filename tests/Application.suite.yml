@@ -3,6 +3,8 @@ suite_namespace: App\Tests\Application
 modules:
     # enable helpers as array
     enabled:
+        - App\Tests\Support\Helper\BlameablePersist:
+        - App\Tests\Support\Helper\EntityManagerReset:
         - Symfony:
               app_path: 'src'
               environment: 'test'

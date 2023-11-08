@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if (isOwner) %}
+        Mes annonces
+    {% else %}
+        Annonces de {{ user.lastName }} {{ user.firstName }}
+    {% endif %}
+{% endblock %}
+{% block content %}
+    {% if (isOwner) %}
+        <h1>Mes annonces</h1>
+    {% else %}
+        <h1>Annonces de {{ user.lastName }} {{ user.firstName }}</h1>
+    {% endif %}
+    {% include 'advertisement/_list.html.twig' %}
+{% endblock %}
