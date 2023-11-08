@@ -15,8 +15,10 @@
             <span>Ajouté le : {{ advertisement.createdAt|date('d/m/Y') }}</span>
             <span>Mis à jour le : {{ advertisement.updatedAt|date('d/m/Y') }}</span>
         </div>
-        <a href="{{ path('app_advertisement_edit', {id: advertisement.id}) }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i> Editer l'annonce</a>
-        <a href="{{ path('app_advertisement_delete', {id: advertisement.id}) }}" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Supprimer l'annonce</a>
+        {% if  is_granted('ADVERTISEMENT_EDIT') %}
+            <a href="{{ path('app_advertisement_edit', {id: advertisement.id}) }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i> Editer l'annonce</a>
+            <a href="{{ path('app_advertisement_delete', {id: advertisement.id}) }}" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Supprimer l'annonce</a>
+        {% endif %}
     </article>
 
 {% endblock %}

@@ -6,6 +6,7 @@ use App\Factory\AdvertisementFactory;
 use App\Factory\CategoryFactory;
 use App\Factory\UserFactory;
 use App\Tests\Support\ApplicationTester;
+use Codeception\Util\HttpCode;
 
 class CRUDCest
 {
@@ -47,9 +48,11 @@ class CRUDCest
 
     public function update(ApplicationTester $I)
     {
+
         CategoryFactory::createOne(['name' => 'quatreger']);
         $adv = AdvertisementFactory::createOne(['title' => 'test', 'description' => 'test', 'price' => 100, 'location' => 'test', 'owner' => $this->user]);
 
+        $I->amLoggedInAs($this->user->object());
         $I->amOnPage("/advertisement/edit/{$adv->getId()}");
         $I->seeResponseCodeIsSuccessful();
         $I->fillField('advertisement[title]', 'Fly you fools !');
@@ -62,11 +65,24 @@ class CRUDCest
         $I->see('I have brought peace, freedom, justice, and security to my new empire.', 'p');
     }
 
+    public function cantUpdateNotOwned(ApplicationTester $I)
+    {
+
+        CategoryFactory::createOne(['name' => 'quatreger']);
+        $user2 = UserFactory::createOne(['email' => 'atrain@the7.com', 'password' => 'luke']);
+        $adv = AdvertisementFactory::createOne(['title' => 'test', 'description' => 'test', 'price' => 100, 'location' => 'test', 'owner' => $user2]);
+
+        $I->amLoggedInAs($this->user->object());
+        $I->amOnPage("/advertisement/edit/{$adv->getId()}");
+        $I->seeResponseCodeIs(HttpCode::FORBIDDEN);
+    }
+
     public function delete(ApplicationTester $I)
     {
         CategoryFactory::createOne(['name' => 'quatreger']);
         $adv = AdvertisementFactory::createOne(['title' => 'feur', 'description' => 'test', 'price' => 100, 'location' => 'test', 'owner' => $this->user]);
 
+        $I->amLoggedInAs($this->user->object());
         $I->amOnPage("/advertisement/delete/{$adv->getId()}");
         $I->seeResponseCodeIsSuccessful();
 
@@ -74,6 +90,17 @@ class CRUDCest
         $I->seeResponseCodeIsSuccessful();
 
         $adv->assertNotPersisted();
+    }
+
+    public function cantDeleteNotOwned(ApplicationTester $I)
+    {
+        CategoryFactory::createOne(['name' => 'quatreger']);
+        $user2 = UserFactory::createOne();
+        $adv = AdvertisementFactory::createOne(['title' => 'feur', 'description' => 'test', 'price' => 100, 'location' => 'test', 'owner' => $user2]);
+
+        $I->amLoggedInAs($this->user->object());
+        $I->amOnPage("/advertisement/delete/{$adv->getId()}");
+        $I->seeResponseCodeIs(HttpCode::FORBIDDEN);
     }
 
     public function createFailedIfNotLogged(ApplicationTester $I)

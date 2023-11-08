@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Advertisement;
-use App\Entity\User;
 use App\Form\AdvertisementType;
 use App\Repository\AdvertisementRepository;
 use App\Repository\UserRepository;
+use App\Security\Voter\AdvertisementVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -18,6 +18,7 @@ use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdvertisementController extends AbstractController
 {
@@ -73,6 +74,7 @@ class AdvertisementController extends AbstractController
         ]);
     }
 
+    #[IsGranted(AdvertisementVoter::EDIT, 'advertisement')]
     #[Route('/advertisement/edit/{id}', name: 'app_advertisement_edit', requirements: ['id' => '\d+'])]
     public function edit(#[MapEntity(expr: 'repository.find(id)')] Advertisement $advertisement, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -96,6 +98,7 @@ class AdvertisementController extends AbstractController
         ]);
     }
 
+    #[IsGranted(AdvertisementVoter::EDIT, 'advertisement')]
     #[Route('/advertisement/delete/{id}', name: 'app_advertisement_delete', requirements: ['id' => '\d+'])]
     public function delete(Advertisement $advertisement, EntityManagerInterface $entityManager, Request $request): Response
     {
@@ -133,15 +136,15 @@ class AdvertisementController extends AbstractController
     }
 
     #[Route('/advertisement/user/{id}', name: 'app_advertisement_user', requirements: ['id' => '\d+'])]
-    public function advertisementOfUser(AdvertisementRepository $advertisementRepository, UserRepository $userRepository, PaginatorInterface $paginator, Request $request, User $id): Response
+    public function advertisementOfUser(AdvertisementRepository $advertisementRepository, UserRepository $userRepository, PaginatorInterface $paginator, Request $request, int $id): Response
     {
         $user = null;
         $isOwner = false;
-        if ($this->isGranted('IS_AUTHENTICATED_FULLY') && $this->getUser()->id == $id->getId()) {
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY') && $this->getUser()->id == $id) {
             $user = $this->getUser();
             $isOwner = true;
         } else {
-            $user = $userRepository->find($id->getId());
+            $user = $userRepository->find($id);
         }
 
         $pagination = $paginator->paginate(
