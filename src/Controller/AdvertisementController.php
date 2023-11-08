@@ -135,12 +135,15 @@ class AdvertisementController extends AbstractController
     #[Route('/advertisement/user/{id}', name: 'app_advertisement_user', requirements: ['id' => '\d+'])]
     public function advertisementOfUser(AdvertisementRepository $advertisementRepository, UserRepository $userRepository, PaginatorInterface $paginator, Request $request, User $id): Response
     {
-        $isOwner = false;
         $user = null;
-        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $user = $userRepository->find($id);
-            $isOwner = $this->getUser()->id == $user->getId();
+        $isOwner = false;
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY') && $this->getUser()->id == $id->getId()) {
+            $user = $this->getUser();
+            $isOwner = true;
+        } else {
+            $user = $userRepository->find($id->getId());
         }
+
         $pagination = $paginator->paginate(
             $advertisementRepository->queryByUser($user->getId()),
             $request->query->getInt('page', 1), /* page number */
