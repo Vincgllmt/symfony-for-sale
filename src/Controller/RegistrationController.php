@@ -6,14 +6,17 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
+use App\Security\UserAuthenticationAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
@@ -27,7 +30,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, UserAuthenticationAuthenticator $authenticator, UserAuthenticatorInterface $userAuthenticator): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -49,12 +52,16 @@ class RegistrationController extends AbstractController
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
+                    ->subject('Merci de confirmer votre email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('app_home');
+            return $userAuthenticator->authenticateUser(
+                $user,
+                $authenticator,
+                $request,
+            );
         }
 
         return $this->render('registration/register.html.twig', [
@@ -89,6 +96,44 @@ class RegistrationController extends AbstractController
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('app_home');
+    }
+
+    #[Route('/validate/email', name: 'app_validate_email')]
+    public function validateUserMail(Request $request, UserRepository $userRepository): Response
+    {
+        $user = $this->getUser();
+        if (null === $user) {
+            return $this->redirectToRoute('app_register');
+        }
+        if ($user->isVerified()) {
+            return $this->redirectToRoute('app_home');
+        }
+        $acceptForm = $this->createFormBuilder()
+            ->add('accept', SubmitType::class, ['label' => 'Envoyer un mail de confirmation'])
+            ->getForm();
+        $acceptForm->handleRequest($request);
+
+        if ($acceptForm->isSubmitted() && $acceptForm->isValid()) {
+            /* @var SubmitButton $submitButton */
+
+            $submitButton = $acceptForm->get('accept');
+
+            if ($submitButton->isClicked()) {
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+                    (new TemplatedEmail())
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                );
+
+                return $this->redirectToRoute('app_home');
+            }
+        }
+
+        return $this->render('registration/validate_email.html.twig', [
+            'user' => $user,
+            'accept_form' => $acceptForm->createView(),
+        ]);
     }
 }

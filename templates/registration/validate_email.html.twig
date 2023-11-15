@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme accept_form 'bootstrap_5_layout.html.twig' %}
+
+{% block title %}Validation du compte{% endblock %}
+
+{% block content %}
+    <h1>Valider le compte: {{ user.lastName }} {{ user.firstName }}</h1>
+
+    {{ form_errors(accept_form) }}
+
+    {{ form_start(accept_form) }}
+    {{ form_widget(accept_form) }}
+    {{ form_end(accept_form) }}
+{% endblock %}
