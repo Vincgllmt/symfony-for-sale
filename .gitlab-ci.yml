@@ -12,6 +12,9 @@ tests:
     - composer install --no-interaction --prefer-dist --no-progress --no-suggest
     - npm ci
     - composer test
+  variables:
+    COMPOSER_ALLOW_SUPERUSER: 1
+
   artifacts:
     paths:
       - tests/_output
