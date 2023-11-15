@@ -1,0 +1,19 @@
+stages:
+  - test
+
+tests:
+  stage: test
+  tags:
+    - php8.1
+    - composer
+    - nodejs
+    - npm
+  script:
+    - composer install --no-interaction --prefer-dist --no-progress --no-suggest
+    - npm ci
+    - composer test
+  artifacts:
+    paths:
+      - tests/_output
+    exclude:
+      - tests/_output/.gitingore
