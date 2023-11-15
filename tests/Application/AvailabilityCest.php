@@ -40,6 +40,9 @@ class AvailabilityCest
             ['/category/1'],
             ['/login'],
             ['/logout'],
+            ['/register'],
+            ['/validate/email'],
+            ['/verify/email'],
         ];
     }
 }

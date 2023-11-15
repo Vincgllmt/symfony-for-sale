@@ -14,7 +14,7 @@ class CRUDCest
 
     public function _before(): void
     {
-        $this->user = UserFactory::createOne(['email' => 'yoda@exemple.com', 'password' => 'luke']);
+        $this->user = UserFactory::createOne(['email' => 'yoda@exemple.com', 'password' => 'luke', 'isVerified' => 'true']);
     }
 
     public function create(ApplicationTester $I)
