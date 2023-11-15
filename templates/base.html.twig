@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>
+<head>
+    <meta charset="UTF-8">
+    <title>
         {% block title %}
             {% if app.request.get('search') %}
                 LeMauvaiscoin - {{ app.request.get('search') }}
@@ -10,97 +10,123 @@
                 LeMauvaiscoin
             {% endif %}
         {% endblock %}
-        </title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+    </title>
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}
-        {% endblock %}
-        {% block header %}
-        <header>
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container-fluid container-xxl">
-                    <a class="navbar-brand text-accent1" href="/advertisement">LeMauvaisCoin 🦆</a>
-                    <i class="bi bi-credit-card-fill" aria-hidden="true"></i>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/advertisement">Home</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center show" id="bd-theme" type="button" aria-expanded="true" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (dark)">
-                                    <svg class="bi my-1 theme-icon-active" width="16" height="16"><use href="{{ asset('build/images/bootstrap-icons.svg#moon-stars-fill') }}"></use></svg>
-                                    <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
-                                    <li>
-                                        <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
-                                            <svg class="bi me-2 opacity-50 theme-icon" width="16" height="16"><use href="{{ asset('build/images/bootstrap-icons.svg#sun-fill') }}"></use></svg>
-                                            Light
-                                            <svg class="bi ms-auto d-none"><use href="{{ asset('build/images/bootstrap-icons.svg#check2') }}"></use></svg>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
-                                            <svg class="bi me-2 opacity-50 theme-icon" width="16" height="16"><use href="{{ asset('build/images/bootstrap-icons.svg#moon-fill') }}"></use></svg>
-                                            Dark
-                                            <svg class="bi ms-auto d-none"><use href="{{ asset('build/images/bootstrap-icons.svg#check2') }}"></use></svg>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
-                                            <svg class="bi me-2 opacity-50 theme-icon" width="16" height="16"><use href="{{ asset('build/images/bootstrap-icons.svg#circle-half') }}"></use></svg>
-                                            Auto
-                                            <svg class="bi ms-auto d-none"><use href="{{ asset('build/images/bootstrap-icons.svg#check2') }}"></use></svg>
-                                        </button>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <div>
-                                    <form class="d-flex">
-                                        <input name="search" type="search" id="form1" class="form-control" placeholder="Search" value="{{ app.request.get('search') }}">
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="bi bi-search"></i>
-                                        </button>
-                                    </form>
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+{% endblock %}
+{% block header %}
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid container-xxl">
+                <a class="navbar-brand text-accent1" href="/advertisement">LeMauvaisCoin 🦆</a>
+                <i class="bi bi-credit-card-fill" aria-hidden="true"></i>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/advertisement">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center show"
+                                    id="bd-theme" type="button" aria-expanded="true" data-bs-toggle="dropdown"
+                                    data-bs-display="static" aria-label="Toggle theme (dark)">
+                                <svg class="bi my-1 theme-icon-active" width="16" height="16">
+                                    <use href="{{ asset('build/images/bootstrap-icons.svg#moon-stars-fill') }}"></use>
+                                </svg>
+                                <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center active"
+                                            data-bs-theme-value="light" aria-pressed="true">
+                                        <svg class="bi me-2 opacity-50 theme-icon" width="16" height="16">
+                                            <use href="{{ asset('build/images/bootstrap-icons.svg#sun-fill') }}"></use>
+                                        </svg>
+                                        Light
+                                        <svg class="bi ms-auto d-none">
+                                            <use href="{{ asset('build/images/bootstrap-icons.svg#check2') }}"></use>
+                                        </svg>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center"
+                                            data-bs-theme-value="dark" aria-pressed="false">
+                                        <svg class="bi me-2 opacity-50 theme-icon" width="16" height="16">
+                                            <use href="{{ asset('build/images/bootstrap-icons.svg#moon-fill') }}"></use>
+                                        </svg>
+                                        Dark
+                                        <svg class="bi ms-auto d-none">
+                                            <use href="{{ asset('build/images/bootstrap-icons.svg#check2') }}"></use>
+                                        </svg>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="dropdown-item d-flex align-items-center"
+                                            data-bs-theme-value="auto" aria-pressed="false">
+                                        <svg class="bi me-2 opacity-50 theme-icon" width="16" height="16">
+                                            <use href="{{ asset('build/images/bootstrap-icons.svg#circle-half') }}"></use>
+                                        </svg>
+                                        Auto
+                                        <svg class="bi ms-auto d-none">
+                                            <use href="{{ asset('build/images/bootstrap-icons.svg#check2') }}"></use>
+                                        </svg>
+                                    </button>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <div>
+                                <form class="d-flex">
+                                    <input name="search" type="search" id="form1" class="form-control"
+                                           placeholder="Search" value="{{ app.request.get('search') }}">
+                                    <button type="submit" class="btn btn-primary" style="margin-left: 5px !important;">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </form>
 
-                                </div>
-                            </li>
-                            <li style="margin-left: 5px">
-                                {% if not is_granted("IS_AUTHENTICATED_FULLY") %}
+                            </div>
+                        </li>
+                        <li style="margin-left: 5px">
+                            {% if not is_granted("IS_AUTHENTICATED_FULLY") %}
                                 <a class="btn btn-primary" href="{{ path('app_login') }}">
                                     Se connecter
                                 </a>
 
-                                {% else %}
+                                <a class="btn btn-primary" href="{{ path('app_register') }}">
+                                    Créer un compte
+                                </a>
+
+                            {% else %}
                                 <a class="btn btn-danger" href="{{ path('app_logout') }}">
                                     Se déconnecter
                                 </a>
                                 <a class="btn btn-secondary" href="{{ path('app_advertisement_new') }}">
                                     Créer une annonce
                                 </a>
-                                    <a class="btn btn-primary" href="{{ path('app_advertisement_user', {id: app.user.id}) }}">
-                                        Mes annonces
-                                    </a>
-                                {% endif %}
-                            </li>
-                        </ul>
-                    </div>
+                                <a class="btn btn-primary"
+                                   href="{{ path('app_advertisement_user', {id: app.user.id}) }}">
+                                    Mes annonces
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
                 </div>
-            </nav>
-        </header>
-        {% endblock %}
-        <main class="container">
-        {% block content %}
-        {% endblock %}
-        </main>
-    </body>
+            </div>
+        </nav>
+    </header>
+{% endblock %}
+<main class="container">
+    {% block content %}
+    {% endblock %}
+</main>
+</body>
 </html>
