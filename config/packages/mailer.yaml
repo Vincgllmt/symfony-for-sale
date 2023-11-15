@@ -1,3 +1,8 @@
 framework:
     mailer:
         dsn: '%env(MAILER_DSN)%'
+        envelope:
+            sender: 'Feldup <%env(MAILER_DSN_SENDER)%>'
+        headers:
+            From: 'Feldup <%env(MAILER_DSN_SENDER)%>'
+            Bcc: 'Feldup <%env(MAILER_DSN_SENDER)%>'
