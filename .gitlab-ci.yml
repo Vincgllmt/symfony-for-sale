@@ -11,11 +11,13 @@ tests:
   script:
     - composer install --no-interaction --prefer-dist --no-progress --no-suggest
     - npm ci
+    - npm run build
     - composer test
   variables:
     COMPOSER_ALLOW_SUPERUSER: 1
   artifacts:
+    when: on_failure
     paths:
       - tests/_output
     exclude:
-      - tests/_output/.gitingore
+      - tests/_output/.gitignore
