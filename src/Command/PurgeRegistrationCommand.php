@@ -41,7 +41,21 @@ class PurgeRegistrationCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $days = (int) ($input->getArgument('days') ?? 500_000);
+
+        if (null === $input->getArgument('days')) {
+            $days = $io->ask('How many days since the users registration ? (keep empty to show all) ', null, function ($days) {
+                if (null !== $days && !is_numeric($days)) {
+                    throw new \RuntimeException('The number of days must be numeric.');
+                }
+
+                return null === $days ? null : (int) $days;
+            });
+            $input->setArgument('days', $days);
+        }
+
+        $daysArg = $input->getArgument('days');
+        $days = null === $daysArg ? null : (int) $daysArg;
+
         $delete = $input->getOption('delete');
         $force = $input->getOption('force');
         $table = new Table($output);

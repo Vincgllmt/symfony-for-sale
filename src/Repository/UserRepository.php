@@ -42,41 +42,45 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-    public function findUnverifiedUsersSince(int $daySince): array
+    public function findUnverifiedUsersSince(?int $daySince): array
     {
-        ++$daySince;
-        $dateSince = (new \DateTime())
-            ->setTime(0, 0, 0)
-            ->modify("-{$daySince} days");
+        $qb = $this->createQueryBuilder('u')
+            ->andWhere('u.isVerified = false');
 
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.isVerified = false')
-            ->andWhere('u.registeredAt > :date')
-            ->setParameter('date', $dateSince)
-            ->getQuery()
-            ->getResult()
-        ;
+        if (null !== $daySince) {
+            ++$daySince;
+            $dateSince = (new \DateTime())
+                ->setTime(0, 0, 0)
+                ->modify("-{$daySince} days");
+            $qb->andWhere('u.registeredAt > :date')
+                ->setParameter('date', $dateSince);
+        }
+
+        return $qb->getQuery()
+            ->getResult();
     }
 
     /**
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function deleteUnverifiedUsersSince(int $daySince): int
+    public function deleteUnverifiedUsersSince(?int $daySince): int
     {
-        ++$daySince;
-        $dateSince = (new \DateTime())
-            ->setTime(0, 0, 0)
-            ->modify("-{$daySince} days");
-
-        return $this->createQueryBuilder('u')
+        $qb = $this->createQueryBuilder('u')
             ->delete()
-            ->andWhere('u.isVerified = false')
-            ->andWhere('u.registeredAt > :date')
-            ->setParameter('date', $dateSince)
-            ->getQuery()
-            ->getSingleScalarResult()
-        ;
+            ->andWhere('u.isVerified = false');
+
+        if (null !== $daySince) {
+            ++$daySince;
+            $dateSince = (new \DateTime())
+                ->setTime(0, 0, 0)
+                ->modify("-{$daySince} days");
+            $qb->andWhere('u.registeredAt > :date')
+                ->setParameter('date', $dateSince);
+        }
+
+        return $qb->getQuery()
+            ->getResult();
     }
 
     //    /**
