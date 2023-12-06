@@ -38,6 +38,10 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('error', 'Le formulaire contient des erreurs.');
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
@@ -97,7 +101,6 @@ class RegistrationController extends AbstractController
             $this->emailVerifier->handleEmailConfirmation($request, $user);
 
             $this->addFlash('success', 'Votre email a bien été vérifié.');
-
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 
