@@ -43,6 +43,8 @@ final class UserFactory extends ModelFactory
 
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories
+     *
+     * @throws \Exception
      */
     protected function getDefaults(): array
     {
@@ -52,6 +54,8 @@ final class UserFactory extends ModelFactory
             'email' => $email,
             'firstname' => self::faker()->firstName(),
             'lastname' => self::faker()->lastName(),
+            'registeredAt' => self::faker()->dateTimeBetween('-2 months', '1 days'),
+            'isVerified' => true,
             'password' => $email,
             'roles' => [],
         ];

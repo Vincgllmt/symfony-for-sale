@@ -37,5 +37,6 @@ final class UserStory extends Story
         ]));
 
         $this->addToPool('users', UserFactory::createMany(10));
+        $this->addToPool('unverifiedUsers', UserFactory::createMany(4, ['isVerified' => false]));
     }
 }
