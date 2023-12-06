@@ -40,6 +40,33 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
+    public function findUnverifiedUsersSince(int $daySince): array
+    {
+        $dateSince = (new \DateTime())->modify("-{$daySince} days");
+
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.isVerified = false')
+            ->andWhere('u.registeredAt < :date')
+            ->setParameter('date', $dateSince)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function deleteUnverifiedUsersSince(int $daySince): int
+    {
+        $dateSince = (new \DateTime())->modify("-{$daySince} days");
+
+        return $this->createQueryBuilder('u')
+            ->delete()
+            ->andWhere('u.isVerified = false')
+            ->andWhere('u.registeredAt < :date')
+            ->setParameter('date', $dateSince)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */
