@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Event\UserConfirmationEmailNotReceived;
+use App\Event\UserRegistered;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Security\UserAuthenticationAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -22,11 +25,10 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    private EmailVerifier $emailVerifier;
-
-    public function __construct(EmailVerifier $emailVerifier)
-    {
-        $this->emailVerifier = $emailVerifier;
+    public function __construct(
+        private EventDispatcherInterface $eventDispatcher,
+        private EmailVerifier $emailVerifier
+    ) {
     }
 
     #[Route('/register', name: 'app_register')]
@@ -48,13 +50,15 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $this->eventDispatcher->dispatch(new UserRegistered($user));
+
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->to($user->getEmail())
-                    ->subject('Merci de confirmer votre email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
+            //            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            //                (new TemplatedEmail())
+            //                    ->to($user->getEmail())
+            //                    ->subject('Merci de confirmer votre email')
+            //                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            //            );
             // do anything else you need here, like send an email
 
             return $userAuthenticator->authenticateUser(
@@ -120,14 +124,9 @@ class RegistrationController extends AbstractController
             $submitButton = $acceptForm->get('accept');
 
             if ($submitButton->isClicked()) {
-                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                    (new TemplatedEmail())
-                        ->to($user->getEmail())
-                        ->subject('Please Confirm your Email')
-                        ->htmlTemplate('registration/confirmation_email.html.twig')
-                );
+                $this->eventDispatcher->dispatch(new UserConfirmationEmailNotReceived($user));
 
-                return $this->redirectToRoute('app_home');
+                return $this->redirectToRoute('app_validate_email');
             }
         }
 

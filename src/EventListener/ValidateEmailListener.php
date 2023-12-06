@@ -25,6 +25,13 @@ class ValidateEmailListener
         if ('app_validate_email' === $current_route || 'app_logout' === $current_route || 'app_verify_email' === $current_route) {
             return;
         }
+        if (str_starts_with($request->getRequestUri(), '/verify/email')) {
+            return;
+        }
+
+        if ($request->getBaseUrl()) {
+            return;
+        }
 
         $user = $this->security->getUser();
 
