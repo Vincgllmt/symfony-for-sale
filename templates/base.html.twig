@@ -125,6 +125,12 @@
     </header>
 {% endblock %}
 <main class="container">
+    {% for flash_error in app.flashes('error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+    {% for flash_success in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">{{ flash_success }}</div>
+    {% endfor %}
     {% block content %}
     {% endblock %}
 </main>

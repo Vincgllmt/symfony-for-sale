@@ -47,10 +47,14 @@ class RegistrationController extends AbstractController
                 )
             );
 
+            $user->setRoles(['ROLE_USER']);
+
             $entityManager->persist($user);
             $entityManager->flush();
 
             $this->eventDispatcher->dispatch(new UserRegistered($user));
+
+            $this->addFlash('success', 'Votre compte a bien été créé, vous pouvez vous connecter.');
 
             // generate a signed url and email it to the user
             //            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
@@ -91,14 +95,14 @@ class RegistrationController extends AbstractController
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
             $this->emailVerifier->handleEmailConfirmation($request, $user);
+
+            $this->addFlash('success', 'Votre email a bien été vérifié.');
+
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
+            $this->addFlash('error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
 
             return $this->redirectToRoute('app_register');
         }
-
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('app_home');
     }
@@ -125,6 +129,8 @@ class RegistrationController extends AbstractController
 
             if ($submitButton->isClicked()) {
                 $this->eventDispatcher->dispatch(new UserConfirmationEmailNotReceived($user));
+
+                $this->addFlash('success', 'Un mail de confirmation vous a été envoyé.');
 
                 return $this->redirectToRoute('app_validate_email');
             }
