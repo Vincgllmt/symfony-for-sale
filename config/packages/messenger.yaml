@@ -22,10 +22,11 @@ framework:
 
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
-when@dev:
+when@dev: &dev
     framework:
         messenger:
             transports:
                 sync: 'sync://'
             routing:
                 Symfony\Component\Mailer\Messenger\SendEmailMessage: sync
+when@test: *dev
