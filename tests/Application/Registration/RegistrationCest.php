@@ -98,4 +98,25 @@ class RegistrationCest
         $I->seeResponseCodeIsSuccessful();
         $I->see('Votre email a bien été vérifié.');
     }
+
+    public function testRegistrationRedirectToVerifyEmail(ApplicationTester $I): void
+    {
+        $I->amOnPage('/register');
+        $I->seeResponseCodeIsSuccessful();
+        $I->see('S\'enregistrer', 'h1');
+        $I->fillField('registration_form[email]', 'kylo.ren@starkiller.espace');
+        $I->fillField('registration_form[lastName]', 'Ren');
+        $I->fillField('registration_form[firstName]', 'Kylo');
+        $I->fillField('registration_form[plainPassword][first]', 'a16z::,,llmA');
+        $I->fillField('registration_form[plainPassword][second]', 'a16z::,,llmA');
+
+        $I->click('S\'enregistrer');
+
+        $I->seeResponseCodeIsSuccessful();
+        $I->see('Valider le compte: Ren Kylo', 'h1');
+
+        $I->amOnPage('/');
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeCurrentUrlEquals('/validate/email');
+    }
 }
