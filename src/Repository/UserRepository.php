@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -42,28 +44,38 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function findUnverifiedUsersSince(int $daySince): array
     {
-        $dateSince = (new \DateTime())->modify("-{$daySince} days");
+        ++$daySince;
+        $dateSince = (new \DateTime())
+            ->setTime(0, 0, 0)
+            ->modify("-{$daySince} days");
 
         return $this->createQueryBuilder('u')
             ->andWhere('u.isVerified = false')
-            ->andWhere('u.registeredAt < :date')
+            ->andWhere('u.registeredAt > :date')
             ->setParameter('date', $dateSince)
             ->getQuery()
             ->getResult()
         ;
     }
 
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
     public function deleteUnverifiedUsersSince(int $daySince): int
     {
-        $dateSince = (new \DateTime())->modify("-{$daySince} days");
+        ++$daySince;
+        $dateSince = (new \DateTime())
+            ->setTime(0, 0, 0)
+            ->modify("-{$daySince} days");
 
         return $this->createQueryBuilder('u')
             ->delete()
             ->andWhere('u.isVerified = false')
-            ->andWhere('u.registeredAt < :date')
+            ->andWhere('u.registeredAt > :date')
             ->setParameter('date', $dateSince)
             ->getQuery()
-            ->getResult()
+            ->getSingleScalarResult()
         ;
     }
 

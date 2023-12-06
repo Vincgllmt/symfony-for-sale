@@ -190,7 +190,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRegisteredAt(): ?\DateTimeImmutable
+    public function getRegisteredAt(): ?\DateTime
     {
         return $this->registeredAt;
     }
