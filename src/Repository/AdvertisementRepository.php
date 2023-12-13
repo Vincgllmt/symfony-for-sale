@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Advertisement;
 use App\Entity\Category;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -76,35 +77,21 @@ class AdvertisementRepository extends ServiceEntityRepository
             ->getSingleResult();
     }
 
-    public function queryByUser($userId)
+    public function queryByUser($userId): Query
     {
         return $this->createQueryBuilder('a')
             ->where('a.owner = :userId')
             ->setParameter('userId', $userId)
             ->getQuery();
     }
-    //    /**
-    //     * @return Advertisement[] Returns an array of Advertisement objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
 
-    //    public function findOneBySomeField($value): ?Advertisement
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findLikedByUser(User $user): Query
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.likes', 'l')
+            ->addSelect('l')
+            ->where('l.id = :id')
+            ->setParameter('id', $user->getId())
+            ->getQuery();
+    }
 }

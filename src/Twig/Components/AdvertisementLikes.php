@@ -23,6 +23,6 @@ final class AdvertisementLikes
             return false;
         }
 
-        return $this->adv->getLikes()->contains($this->user->getId());
+        return $this->adv->getLikes()->contains($this->user);
     }
 }

@@ -159,4 +159,21 @@ class AdvertisementController extends AbstractController
             'user' => $user,
         ]);
     }
+
+    #[Route('/advertisement/liked', name: 'app_advertisement_liked')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function liked(AdvertisementRepository $advRepository, PaginatorInterface $paginator, Request $request): Response
+    {
+        $user = $this->getUser();
+
+        $pagination = $paginator->paginate(
+            $advRepository->findLikedByUser($user),
+            $request->query->getInt('page', 1), /* page number */
+            10 /* limit per page */
+        );
+
+        return $this->render('advertisement/liked.html.twig', [
+            'pagination' => $pagination,
+        ]);
+    }
 }
