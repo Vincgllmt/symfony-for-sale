@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AdvertisementRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Blameable;
@@ -43,6 +45,14 @@ class Advertisement
     #[ORM\JoinColumn(nullable: false)]
     #[Blameable(on: 'create')]
     private ?User $owner = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'likes')]
+    private Collection $likes;
+
+    public function __construct()
+    {
+        $this->likes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -141,6 +151,33 @@ class Advertisement
     public function setOwner(?User $owner): static
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(User $like): static
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->addLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(User $like): static
+    {
+        if ($this->likes->removeElement($like)) {
+            $like->removeLike($this);
+        }
 
         return $this;
     }

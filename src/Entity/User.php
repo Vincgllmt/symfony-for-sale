@@ -49,9 +49,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTime $registeredAt = null;
 
+    #[ORM\ManyToMany(targetEntity: Advertisement::class, inversedBy: 'likes')]
+    private Collection $likes;
+
     public function __construct()
     {
         $this->advertisements = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -198,6 +202,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRegisteredAt(\DateTime $registeredAt): static
     {
         $this->registeredAt = $registeredAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Advertisement>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Advertisement $like): static
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Advertisement $like): static
+    {
+        $this->likes->removeElement($like);
 
         return $this;
     }
