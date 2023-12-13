@@ -1,0 +1,8 @@
+<div>
+    {% if this.isLikedByUser()%}
+        <i class="bi bi-heart-fill"></i>
+    {%else%}
+    <i class="bi bi-heart"></i>
+    {%endif%}
+    {{ this.getLikesCount() }}
+</div>
