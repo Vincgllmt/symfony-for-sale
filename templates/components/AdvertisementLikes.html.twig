@@ -1,8 +1,10 @@
 <div>
+    <button data-action="live#action" data-action-name="toggleLike" type="button" class="btn btn-primary">
     {% if this.isLikedByUser()%}
         <i class="bi bi-heart-fill"></i>
     {%else%}
     <i class="bi bi-heart"></i>
     {%endif%}
     {{ this.getLikesCount() }}
+    </button>
 </div>
