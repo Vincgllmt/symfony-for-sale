@@ -21,7 +21,7 @@
         <span>Ajouté le : {{ advert.createdAt|date('d/m/Y') }}</span>
         <span>Mis à jour le : {{ advert.updatedAt|date('d/m/Y') }}</span>
     </div>
-    {{ component('AdvertisementLikes', {adv: advert, user: app.user }) }}
+    {{ component('AdvertisementLikes', {adv: advert }) }}
 </li>
 {% endfor %}
 </ul>

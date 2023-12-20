@@ -3,17 +3,25 @@
 namespace App\Twig\Components;
 
 use App\Entity\Advertisement;
-use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
+use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
 #[AsLiveComponent]
 final class AdvertisementLikes
 {
     use DefaultActionTrait;
-    public Advertisement $adv;
-    public ?User $user;
+
+    #[LiveProp] public Advertisement $adv;
+
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private Security $security
+    ) {
+    }
 
     public function getLikesCount(): int
     {
@@ -22,24 +30,29 @@ final class AdvertisementLikes
 
     public function isLikedByUser(): bool
     {
-        if (!$this->user) {
+        $user = $this->security->getUser();
+        if (!$user) {
             return false;
         }
 
-        return $this->adv->getLikes()->contains($this->user);
+        return $this->adv->getLikes()->contains($user);
     }
 
     #[LiveAction]
     public function toggleLike(): void
     {
-        if (!$this->user) {
+        $user = $this->security->getUser();
+
+        if (!$user) {
             return;
         }
 
         if ($this->isLikedByUser()) {
-            $this->adv->removeLike($this->user);
+            $this->adv->removeLike($user);
         } else {
-            $this->adv->addLike($this->user);
+            $this->adv->addLike($user);
         }
+
+        $this->entityManager->flush();
     }
 }

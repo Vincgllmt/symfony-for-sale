@@ -1,5 +1,12 @@
-<div>
-    <button data-action="live#action" data-action-name="toggleLike" type="button" class="btn btn-primary">
+<div {{ attributes }}>
+    <button
+            data-action="live#action"
+            data-action-name="toggleLike"
+            class="btn btn-primary"
+            {% if not app.user %}
+            disabled
+            {% endif %}
+    >
     {% if this.isLikedByUser()%}
         <i class="bi bi-heart-fill"></i>
     {%else%}
