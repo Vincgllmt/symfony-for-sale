@@ -16,7 +16,6 @@ final class AdvertisementLikes
     use DefaultActionTrait;
 
     #[LiveProp] public Advertisement $adv;
-
     public function __construct(
         private EntityManagerInterface $entityManager,
         private Security $security
