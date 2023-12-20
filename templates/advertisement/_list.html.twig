@@ -10,7 +10,9 @@
             <span class="badge bg-danger">{{ advert.category.name }}</span>
         </a>
     </p>
-    <h2>{{ advert.title }}</h2>
+    <a href="{{ path('app_advertisement_show', {id: advert.id}) }}" style="text-decoration: none; color: #050000">
+        <h2>{{ advert.title }}</h2>
+    </a>
     <p class="text-wrap-anywhere">{{ advert.description }}</p>
     <p>Prix : {{ advert.price }} €</p>
     <div class="d-flex w-100 justify-content-between">

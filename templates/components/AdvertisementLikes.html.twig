@@ -3,7 +3,7 @@
             data-action="live#action"
             data-action-name="toggleLike"
             class="btn btn-primary"
-            {% if not app.user %}
+            {% if not is_granted('ADVERTISEMENT_LIKE', this.adv) %}
             disabled
             {% endif %}
     >

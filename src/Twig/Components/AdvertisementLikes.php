@@ -3,8 +3,10 @@
 namespace App\Twig\Components;
 
 use App\Entity\Advertisement;
+use App\Security\Voter\AdvertisementVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
@@ -38,14 +40,10 @@ final class AdvertisementLikes
     }
 
     #[LiveAction]
+    #[IsGranted(AdvertisementVoter::LIKE)]
     public function toggleLike(): void
     {
         $user = $this->security->getUser();
-
-        if (!$user) {
-            return;
-        }
-
         if ($this->isLikedByUser()) {
             $this->adv->removeLike($user);
         } else {
