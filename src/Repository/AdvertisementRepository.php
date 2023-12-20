@@ -34,6 +34,8 @@ class AdvertisementRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('a')
             ->leftJoin('a.category', 'ca')
+            ->innerJoin('a.owner', 'o')
+            ->addSelect('o')
             ->addSelect('ca')
             ->orderBy('a.createdAt', 'DESC');
         if ($search) {
